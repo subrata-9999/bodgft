@@ -290,7 +290,7 @@
           <div class="shadows"></div>
         </div>
         <p id="text_bolte_1" class="text2">Start</p>
-        <p id="text_bolte_2" style="display: none;" class="text2">Say "Ankita" to blow off the candle</p>
+        <p id="text_bolte_2" style="display: none;" class="text2">Tap on the candle to blow it.</p>
         <p id="text_bolte_3" style="display: none;" class="text2">Go To the Gift Card Section</p>
       </div>
     <audio id="clapSound" preload="auto">
@@ -312,112 +312,127 @@
         $('#text_bolte_1').click(function() {
             $('#text_bolte_1').hide();
             $('#text_bolte_2').show();
-            recognition.onresult = function(event) {
-            let transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
-            console.log("You said: ", transcript);
+            // Start listening to user's voice
+          });
 
-            // Trigger when user says "hey it's my birthday"
-            if (
-                transcript.includes("birthday") ||
-                transcript.includes("anki") ||
-                transcript.includes("ankita") ||
-                transcript.includes("candle") ||
-                transcript.includes("hello") ||
-                transcript.includes("it's my birthday") || 
-                transcript.includes("hey it's my birthday") || 
-                transcript.includes("today is my birthday") || 
-                transcript.includes("my birthday is today") || 
-                transcript.includes("it's my bday") || 
-                transcript.includes("hey it's my bday") || 
-                transcript.includes("it's my special day") || 
-                transcript.includes("today is my bday") || 
-                transcript.includes("my bday is today") || 
-                transcript.includes("i was born today") || 
-                transcript.includes("it's my born day") || 
-                transcript.includes("wish me it's my birthday") || 
-                transcript.includes("hey it's my special day") || 
-                transcript.includes("today is my special day") || 
-                transcript.includes("i turned a year older today") || 
-                transcript.includes("it's my cake day") || 
-                transcript.includes("today is my cake day") || 
-                transcript.includes("blow the candle it's my birthday") || 
-                transcript.includes("celebrate my birthday") || 
-                transcript.includes("i am celebrating my birthday today") || 
-                transcript.includes("make a wish it's my birthday") || 
-                transcript.includes("sing happy birthday to me") || 
-                transcript.includes("play birthday song for me") || 
-                transcript.includes("i am the birthday person today") || 
-                transcript.includes("it's my day today") || 
-                transcript.includes("happy birthday to me") ||
-                transcript.includes("i am turning older today") ||
-                transcript.includes("it's my") ||
-                transcript.includes("it's my happy day")
-            ) {
-                // click on the flame to blow the candle
-                $(".flame, .flame2, .flame3").click();
+        // for clicking on the candel
+        $(".candles").click(function() {
 
-                // Blow off the flame
-                $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
+            // Blow off the flame
+            $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
 
-                // Move text up and show it
-                $(".text").animate({"top": -90, "opacity": 1}, "fast");
+            // Move text up and show it
+            $(".text").animate({"top": -90, "opacity": 1}, "fast");
 
-                $("#clapSound")[0].play();
-                $('#text_bolte_2').hide();  
-                $('#text_bolte_3').show();
-                // Vibrate device
-                navigator.vibrate(500);
+            $("#clapSound")[0].play();
+            $('#text_bolte_1').hide();
+            $('#text_bolte_2').hide();  
+            $('#text_bolte_3').show();
+        });
+          
+        //   // Blow off the candle by speaking "Hey it's my birthday"
+        // let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        // let analyser = audioContext.createAnalyser();
+        // let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+
+        // // Start listening when the page loads
+        // recognition.continuous = true;
+        // recognition.lang = 'en-US';
+
+        // recognition.start();
+        // recognition.onresult = function(event) {
+        //     let transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
+        //     console.log("You said: ", transcript);
+
+        //     // Trigger when user says "hey it's my birthday"
+        //     if (
+        //         transcript.includes("birthday") ||
+        //         transcript.includes("anki") ||
+        //         transcript.includes("ankita") ||
+        //         transcript.includes("candle") ||
+        //         transcript.includes("hello") ||
+        //         transcript.includes("it's my birthday") || 
+        //         transcript.includes("hey it's my birthday") || 
+        //         transcript.includes("today is my birthday") || 
+        //         transcript.includes("my birthday is today") || 
+        //         transcript.includes("it's my bday") || 
+        //         transcript.includes("hey it's my bday") || 
+        //         transcript.includes("it's my special day") || 
+        //         transcript.includes("today is my bday") || 
+        //         transcript.includes("my bday is today") || 
+        //         transcript.includes("i was born today") || 
+        //         transcript.includes("it's my born day") || 
+        //         transcript.includes("wish me it's my birthday") || 
+        //         transcript.includes("hey it's my special day") || 
+        //         transcript.includes("today is my special day") || 
+        //         transcript.includes("i turned a year older today") || 
+        //         transcript.includes("it's my cake day") || 
+        //         transcript.includes("today is my cake day") || 
+        //         transcript.includes("blow the candle it's my birthday") || 
+        //         transcript.includes("celebrate my birthday") || 
+        //         transcript.includes("i am celebrating my birthday today") || 
+        //         transcript.includes("make a wish it's my birthday") || 
+        //         transcript.includes("sing happy birthday to me") || 
+        //         transcript.includes("play birthday song for me") || 
+        //         transcript.includes("i am the birthday person today") || 
+        //         transcript.includes("it's my day today") || 
+        //         transcript.includes("happy birthday to me") ||
+        //         transcript.includes("i am turning older today") ||
+        //         transcript.includes("it's my") ||
+        //         transcript.includes("it's my happy day")
+        //     ) {
+        //         // click on the flame to blow the candle
+        //         $(".flame, .flame2, .flame3").click();
+
+        //         // Blow off the flame
+        //         $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
+
+        //         // Move text up and show it
+        //         $(".text").animate({"top": -90, "opacity": 1}, "fast");
+
+        //         $("#clapSound")[0].play();
+        //         $('#text_bolte_2').hide();  
+        //         $('#text_bolte_3').show();
+        //         // Vibrate device
+        //         navigator.vibrate(500);
                 
-                // ✅ Automatically Play Happy Birthday Song
-                // setTimeout(function() {
-                // }, 2000);
+        //         // ✅ Automatically Play Happy Birthday Song
+        //         // setTimeout(function() {
+        //         // }, 2000);
 
-                // // ✅ Fireworks Effect
-                // setTimeout(function() {
-                //     startFireworks();
-                // }, 2500);
+        //         // // ✅ Fireworks Effect
+        //         // setTimeout(function() {
+        //         //     startFireworks();
+        //         // }, 2500);
 
-                // // ✅ Show Floating "Make a Wish" Text
-                // //$(".floatingWish").fadeIn(1000).delay(5000).fadeOut(1000);
+        //         // // ✅ Show Floating "Make a Wish" Text
+        //         // //$(".floatingWish").fadeIn(1000).delay(5000).fadeOut(1000);
 
-                // // ✅ Add Falling Confetti (Optional)
-                // startConfetti();
-            }
+        //         // // ✅ Add Falling Confetti (Optional)
+        //         // startConfetti();
+        //     }
 
             
-        }
+        // }
 
-        });
+        // // If user clicks manually, blow the candle
+        // // $(".flame, .flame2, .flame3").click(function() {
+        // //     $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
+        // //     $(".text").animate({"top": -90, "opacity": 1}, "fast");
+        // //     $("#clapSound")[0].play();        
+        // // });
 
-        // Blow off the candle by speaking "Hey it's my birthday"
-        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let analyser = audioContext.createAnalyser();
-        let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        // // Handle errors
+        // recognition.onerror = function(event) {
+        //     console.error("Speech recognition error:", event.error);
+        //     // reload the page if there is an error
+        //     location.reload();
+        //     $('#text_bolte_2').hide();
+        //     $('#text_bolte_1').show();
+        // };
 
-
-        // Start listening when the page loads
-        recognition.continuous = true;
-        recognition.lang = 'en-US';
-
-       
-        // If user clicks manually, blow the candle
-        // $(".flame, .flame2, .flame3").click(function() {
-        //     $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
-        //     $(".text").animate({"top": -90, "opacity": 1}, "fast");
-        //     $("#clapSound")[0].play();        
-        // });
-
-        // Handle errors
-        recognition.onerror = function(event) {
-            console.error("Speech recognition error:", event.error);
-            // reload the page if there is an error
-            location.reload();
-            $('#text_bolte_2').hide();
-            $('#text_bolte_1').show();
-        };
-
-        // Start listening to user's voice
-        recognition.start();
+        
 
         // ===========================
             // 🚀 FIREWORKS FUNCTION
