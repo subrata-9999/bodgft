@@ -274,13 +274,53 @@
     <script>
 
 $(document).ready(function() {
-    $(".candles").click(function() {
+    // $(".candles").click(function() {
         
-      $(".flame").animate({"opacity": 0}, "fast");
-      $(".flame2").animate({"opacity": 0}, "fast");
-      $(".flame3").animate({"opacity": 0}, "fast");
-      $(".text").animate({"top": -90, "opacity": 1}, "fast");
+    //   $(".flame").animate({"opacity": 0}, "fast");
+    //   $(".flame2").animate({"opacity": 0}, "fast");
+    //   $(".flame3").animate({"opacity": 0}, "fast");
+    //   $(".text").animate({"top": -90, "opacity": 1}, "fast");
+    // });
+
+    // if someone blow air on candles, then candles will be off(using navigator.vibrate(1000))
+    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let analyser = audioContext.createAnalyser();
+    navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(function(stream) {
+        let source = audioContext.createMediaStreamSource(stream);
+        source.connect(analyser);
+        analyser.fftSize = 256;
+        let dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        function detectBlow() {
+        analyser.getByteFrequencyData(dataArray);
+        let volume = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+
+        // Adjust the threshold based on your microphone sensitivity
+        if (volume > 100) {
+            $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
+            $(".text").animate({"top": -90, "opacity": 1}, "fast");
+            navigator.vibrate(1000);
+            $("#clapSound")[0].play();
+        }
+        requestAnimationFrame(detectBlow);
+        }
+
+        detectBlow();
+    })
+    .catch(function(err) {
+        console.error("Microphone access denied.", err);
     });
+
+    $(".flame").click(function() {
+    $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
+    $(".text").animate({"top": -90, "opacity": 1}, "fast");
+    navigator.vibrate(1000);
+    $("#clapSound")[0].play();
+    });
+
+
+     
 });
     </script>
 </body>
