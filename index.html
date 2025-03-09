@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday My Love ❤️</title>
+    <title>Happy Birthday Buddy ❤️</title>
     <style>
         body {
             margin: 0;
@@ -16,15 +16,27 @@
             padding: 50px 20px;
         }
         h1 {
-            font-size: 50px;
+            font-size: 30px;
             color: #ff4d6d;
+            font-family: 'Cursive', sans-serif;
         }
         .cake {
             position: relative;
-            width: 150px;
+            width: 300px;
             height: 200px;
             background-color: #ff4d6d;
             margin: 20px auto;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .cake::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 320px;
+            height: 10px;
+            background-color: #ffd700;
             border-radius: 10px 10px 0 0;
         }
         .candle {
@@ -33,45 +45,44 @@
             background-color: #fff;
             position: absolute;
             top: -60px;
-            left: 50%;
-            transform: translateX(-50%);
+            border-radius: 2px;
+            border: 2px solid #000;
         }
         .flame {
-            width: 15px;
-            height: 30px;
+            width: 10px;
+            height: 20px;
             background-color: orange;
             border-radius: 50%;
             position: absolute;
-            top: -30px;
+            top: -20px;
             left: 50%;
             transform: translateX(-50%);
             animation: flicker 0.1s infinite;
+        }
+        .plate {
+            width: 320px;
+            height: 20px;
+            background-color: #c2c2c2;
+            border-radius: 10px;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
         }
         @keyframes flicker {
             0% { transform: translateX(-50%) scale(1.1); }
             50% { transform: translateX(-50%) scale(0.9); }
             100% { transform: translateX(-50%) scale(1.1); }
         }
-        .wind {
-            display: none;
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 30px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Happy Birthday Buddy ❤️</h1>
-        <div class="cake">
-            <div class="candle">
-                <div class="flame" id="flame"></div>
-                <div class="wind" id="wind">💨</div>
-            </div>
+        <div class="cake" id="cake">
+            <div class="plate"></div>
         </div>
-        <p>Blow on the screen to turn off the candle. 💖</p>
+        <p>Blow on the screen to turn off the candles. 💖</p>
     </div>
 
     <audio id="clapSound" preload="auto">
@@ -81,11 +92,25 @@
     </audio>
 
     <script>
-        let flame = document.getElementById('flame');
-        let wind = document.getElementById('wind');
+        let cake = document.getElementById('cake');
         let clapSound = document.getElementById('clapSound');
+        let candles = [];
+        let firstBlow = false;
 
-        // Access the microphone
+        // Generate 21 candles
+        for (let i = 0; i < 21; i++) {
+            let candle = document.createElement('div');
+            candle.className = 'candle';
+            candle.style.left = `${(i * 14) + 10}px`;
+
+            let flame = document.createElement('div');
+            flame.className = 'flame';
+
+            candle.appendChild(flame);
+            cake.appendChild(candle);
+            candles.push(flame);
+        }
+
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const analyser = audioContext.createAnalyser();
@@ -99,17 +124,23 @@
 
             function detectBlow() {
                 analyser.getByteFrequencyData(dataArray);
-                let blowDetected = dataArray.some(v => v > 180); // More sensitive
+                let blowDetected = dataArray.some(v => v > 180);
 
                 if (blowDetected) {
-                    flame.style.display = 'none';
-                    wind.style.display = 'block';
-                    if (clapSound.paused) {
-                        clapSound.play().catch(() => console.log('Audio autoplay failed'));
+                    if (!firstBlow) {
+                        // Turn off 10 random candles
+                        let shuffled = candles.sort(() => 0.5 - Math.random());
+                        for (let i = 0; i < 10; i++) {
+                            shuffled[i].style.display = 'none';
+                        }
+                        firstBlow = true;
+                    } else {
+                        // Turn off remaining candles
+                        candles.forEach(candle => candle.style.display = 'none');
+                        if (clapSound.paused) {
+                            clapSound.play().catch(() => console.log('Audio autoplay failed'));
+                        }
                     }
-                    setTimeout(() => {
-                        wind.style.display = 'none';
-                    }, 1500);
                 }
 
                 requestAnimationFrame(detectBlow);
