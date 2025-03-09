@@ -74,7 +74,11 @@
         <p>Blow on the screen to turn off the candle. 💖</p>
     </div>
 
-    <audio id="clapSound" src="https://www.soundjay.com/button/sounds/applause-01.mp3"></audio>
+    <audio id="clapSound" preload="auto">
+        <source src="https://www.soundjay.com/applause/applause-01.mp3" type="audio/mpeg">
+        <source src="https://www.soundjay.com/applause/applause-01.ogg" type="audio/ogg">
+        Your browser does not support the audio element.
+    </audio>
 
     <script>
         let flame = document.getElementById('flame');
@@ -95,12 +99,14 @@
 
             function detectBlow() {
                 analyser.getByteFrequencyData(dataArray);
-                let blowDetected = dataArray.some(v => v > 150);
+                let blowDetected = dataArray.some(v => v > 180); // More sensitive
 
                 if (blowDetected) {
                     flame.style.display = 'none';
                     wind.style.display = 'block';
-                    clapSound.play();
+                    if (clapSound.paused) {
+                        clapSound.play().catch(() => console.log('Audio autoplay failed'));
+                    }
                     setTimeout(() => {
                         wind.style.display = 'none';
                     }, 1500);
