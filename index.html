@@ -273,7 +273,8 @@
     </style>
 </head>
 <body>
-    
+
+     
     <div id="birthday-cake">
         <div class="cake">
           <div class="middle"></div>
@@ -288,8 +289,8 @@
           <div class="shadows"></div>
         </div>
         <p id="text_bolte_1" class="text2">Start</p>
-        <p id="text_bolte_2" style="display: none;" class="text2">Say "Candle" to blow off the candle</p>
-        <p id="text_bolte_3" style="display: none;" class="text2">Special Gift Card</p>
+        <p id="text_bolte_2" style="display: none;" class="text2">Say "Ankita" to blow off the candle</p>
+        <p id="text_bolte_3" style="display: none;" class="text2">Go To the Gift Card Section</p>
       </div>
     <audio id="clapSound" preload="auto">
         <source src="demo/birthDay_song.mp3" type="audio/mpeg">
@@ -328,6 +329,7 @@
 
             // Trigger when user says "hey it's my birthday"
             if (
+                transcript.includes("birthday") ||
                 transcript.includes("anki") ||
                 transcript.includes("ankita") ||
                 transcript.includes("candle") ||
