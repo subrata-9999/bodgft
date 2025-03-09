@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffecf2;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        h1 {
+            font-size: 50px;
+            color: #ff4d6d;
+        }
+        .cake {
+            position: relative;
+            width: 150px;
+            height: 200px;
+            background-color: #ff4d6d;
+            margin: 20px auto;
+            border-radius: 10px 10px 0 0;
+        }
+        .candle {
+            width: 10px;
+            height: 60px;
+            background-color: #fff;
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .flame {
+            width: 15px;
+            height: 30px;
+            background-color: orange;
+            border-radius: 50%;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 0.1s infinite;
+        }
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1.1); }
+            50% { transform: translateX(-50%) scale(0.9); }
+            100% { transform: translateX(-50%) scale(1.1); }
+        }
+        .wind {
+            display: none;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Birthday My Love ❤️</h1>
+        <div class="cake">
+            <div class="candle">
+                <div class="flame" id="flame"></div>
+                <div class="wind" id="wind">💨</div>
+            </div>
+        </div>
+        <p>Blow on the screen to turn off the candle. 💖</p>
+    </div>
+
+    <audio id="clapSound" src="https://www.soundjay.com/button/sounds/applause-01.mp3"></audio>
+
+    <script>
+        let flame = document.getElementById('flame');
+        let wind = document.getElementById('wind');
+        let clapSound = document.getElementById('clapSound');
+
+        // Access the microphone
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const analyser = audioContext.createAnalyser();
+            const microphone = audioContext.createMediaStreamSource(stream);
+
+            microphone.connect(analyser);
+
+            analyser.fftSize = 256;
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+
+            function detectBlow() {
+                analyser.getByteFrequencyData(dataArray);
+                let blowDetected = dataArray.some(v => v > 150);
+
+                if (blowDetected) {
+                    flame.style.display = 'none';
+                    wind.style.display = 'block';
+                    clapSound.play();
+                    setTimeout(() => {
+                        wind.style.display = 'none';
+                    }, 1500);
+                }
+
+                requestAnimationFrame(detectBlow);
+            }
+
+            detectBlow();
+        }).catch(err => {
+            alert('Please allow microphone access to blow out the candle. 🎂💨');
+        });
+    </script>
+</body>
+</html>
