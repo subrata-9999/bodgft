@@ -269,6 +269,8 @@
         Your browser does not support the audio element.
     </audio>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
 
 $(document).ready(function() {
@@ -280,64 +282,6 @@ $(document).ready(function() {
       $(".text").animate({"top": -90, "opacity": 1}, "fast");
     });
 });
-        let cake = document.getElementById('cake');
-        let clapSound = document.getElementById('clapSound');
-        let candles = [];
-        let firstBlow = false;
-
-        // Generate 21 candles
-        for (let i = 0; i < 21; i++) {
-            let candle = document.createElement('div');
-            candle.className = 'candle';
-            candle.style.left = `${(i * 14) + 10}px`;
-
-            let flame = document.createElement('div');
-            flame.className = 'flame';
-
-            candle.appendChild(flame);
-            cake.appendChild(candle);
-            candles.push(flame);
-        }
-
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const analyser = audioContext.createAnalyser();
-            const microphone = audioContext.createMediaStreamSource(stream);
-
-            microphone.connect(analyser);
-
-            analyser.fftSize = 256;
-            const bufferLength = analyser.frequencyBinCount;
-            const dataArray = new Uint8Array(bufferLength);
-
-            function detectBlow() {
-                analyser.getByteFrequencyData(dataArray);
-                let blowDetected = dataArray.some(v => v > 180);
-
-                if (blowDetected) {
-                    if (!firstBlow) {
-                        // Turn off 10 random candles
-                        let shuffled = candles.sort(() => 0.5 - Math.random());
-                        for (let i = 0; i < 10; i++) {
-                            shuffled[i].style.display = 'none';
-                        }
-                        firstBlow = true;
-                    } else {
-                        // Turn off remaining candles
-                        candles.forEach(candle => candle.style.display = 'none');
-                        if (clapSound.paused) {
-                            clapSound.play().catch(() => console.log('Audio autoplay failed'));
-                        }
-                    }
-                }
-
-                requestAnimationFrame(detectBlow);
-            }
-
-            detectBlow();
-        }).catch(err => {
-            alert('Please allow microphone access to blow out the candle. 🎂💨');
-        });
     </script>
 </body>
 </html>
