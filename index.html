@@ -231,7 +231,7 @@
 }
 .text {
   width:350px;
-  font-size: 50px;
+  font-size: 25px;
   left:-140px;
   top:100px;
   z-index:-1;
@@ -245,6 +245,31 @@
   top:105px;
   left:-140px;
 }
+
+.cake:after {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://media.giphy.com/media/3ohc0W3U6m7tnCCxUQ/giphy.gif');
+            background-size: cover;
+            z-index: 999;
+        }
+
+        .fireworks {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://media.giphy.com/media/3ohc0W3U6m7tnCCxUQ/giphy.gif');
+            background-size: cover;
+            z-index: 999999 !important;
+        }
+
     </style>
 </head>
 <body>
@@ -258,13 +283,13 @@
           <div class="flame"></div>
           <div class="flame2"></div>
           <div class="flame3"></div>
-          <div class="text">Happy Birthday!</div>
+          <div class="text">Happy Birthday Ankita!</span></div>
           <div class="shadows"></div>
         </div>
-        <p class="text2">*click on the flame to blow candles</p>
+        <p class="text2">Say "Candle" to blow off the candle</p>
       </div>
     <audio id="clapSound" preload="auto">
-        <source src="birthDay_song.mp3" type="audio/mpeg">
+        <source src="demo/birthDay_song.mp3" type="audio/mpeg">
         <source src="https://www.soundjay.com/applause/applause-01.ogg" type="audio/ogg">
         Your browser does not support the audio element.
     </audio>
@@ -273,55 +298,171 @@
 
     <script>
 
-$(document).ready(function() {
-    // $(".candles").click(function() {
-        
-    //   $(".flame").animate({"opacity": 0}, "fast");
-    //   $(".flame2").animate({"opacity": 0}, "fast");
-    //   $(".flame3").animate({"opacity": 0}, "fast");
-    //   $(".text").animate({"top": -90, "opacity": 1}, "fast");
-    // });
+    $(document).ready(function() {
 
-    // if someone blow air on candles, then candles will be off(using navigator.vibrate(1000))
-    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    let analyser = audioContext.createAnalyser();
-    navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(function(stream) {
-        let source = audioContext.createMediaStreamSource(stream);
-        source.connect(analyser);
-        analyser.fftSize = 256;
-        let dataArray = new Uint8Array(analyser.frequencyBinCount);
+        // Blow off the candle by speaking "Hey it's my birthday"
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let analyser = audioContext.createAnalyser();
+        let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 
-        function detectBlow() {
-        analyser.getByteFrequencyData(dataArray);
-        let volume = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
 
-        // Adjust the threshold based on your microphone sensitivity
-        if (volume > 100) {
-            $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
-            $(".text").animate({"top": -90, "opacity": 1}, "fast");
-            navigator.vibrate(1000);
-            $("#clapSound")[0].play();
+        // Start listening when the page loads
+        recognition.continuous = true;
+        recognition.lang = 'en-US';
+
+        recognition.onresult = function(event) {
+            let transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
+            console.log("You said: ", transcript);
+
+            // Trigger when user says "hey it's my birthday"
+            if (
+                transcript.includes("sima") ||
+                transcript.includes("seema") ||
+                transcript.includes("candle") ||
+                transcript.includes("halululu") ||
+                transcript.includes("it's my birthday") || 
+                transcript.includes("hey it's my birthday") || 
+                transcript.includes("today is my birthday") || 
+                transcript.includes("my birthday is today") || 
+                transcript.includes("it's my bday") || 
+                transcript.includes("hey it's my bday") || 
+                transcript.includes("it's my special day") || 
+                transcript.includes("today is my bday") || 
+                transcript.includes("my bday is today") || 
+                transcript.includes("i was born today") || 
+                transcript.includes("it's my born day") || 
+                transcript.includes("wish me it's my birthday") || 
+                transcript.includes("hey it's my special day") || 
+                transcript.includes("today is my special day") || 
+                transcript.includes("i turned a year older today") || 
+                transcript.includes("it's my cake day") || 
+                transcript.includes("today is my cake day") || 
+                transcript.includes("blow the candle it's my birthday") || 
+                transcript.includes("celebrate my birthday") || 
+                transcript.includes("i am celebrating my birthday today") || 
+                transcript.includes("make a wish it's my birthday") || 
+                transcript.includes("sing happy birthday to me") || 
+                transcript.includes("play birthday song for me") || 
+                transcript.includes("i am the birthday person today") || 
+                transcript.includes("it's my day today") || 
+                transcript.includes("happy birthday to me") ||
+                transcript.includes("i am turning older today") ||
+                transcript.includes("it's my birth anniversary") ||
+                transcript.includes("it's my happy day")
+            ) {
+                // click on the flame to blow the candle
+                $(".flame, .flame2, .flame3").click();
+
+                // Blow off the flame
+                $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
+
+                // Move text up and show it
+                $(".text").animate({"top": -90, "opacity": 1}, "fast");
+
+                $("#clapSound")[0].play();
+                // Vibrate device
+                navigator.vibrate(500);
+                
+                // ✅ Automatically Play Happy Birthday Song
+                // setTimeout(function() {
+                // }, 2000);
+
+                // // ✅ Fireworks Effect
+                // setTimeout(function() {
+                //     startFireworks();
+                // }, 2500);
+
+                // // ✅ Show Floating "Make a Wish" Text
+                // //$(".floatingWish").fadeIn(1000).delay(5000).fadeOut(1000);
+
+                // // ✅ Add Falling Confetti (Optional)
+                // startConfetti();
+            }
+
+            
         }
-        requestAnimationFrame(detectBlow);
-        }
 
-        detectBlow();
-    })
-    .catch(function(err) {
-        console.error("Microphone access denied.", err);
+        // If user clicks manually, blow the candle
+        // $(".flame, .flame2, .flame3").click(function() {
+        //     $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
+        //     $(".text").animate({"top": -90, "opacity": 1}, "fast");
+        //     $("#clapSound")[0].play();        
+        // });
+
+        // Handle errors
+        recognition.onerror = function(event) {
+            console.error("Speech recognition error:", event.error);
+        };
+
+        // Start listening to user's voice
+        recognition.start();
+
+        // ===========================
+            // 🚀 FIREWORKS FUNCTION
+            // ===========================
+            function startFireworks() {
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(function() {
+                        console.log("Fireworks!");
+                        let firework = $('<div class="firework"></div>');
+                        $("body").append(firework);
+
+                        let randomLeft = Math.random() * window.innerWidth;
+                        let randomTop = Math.random() * window.innerHeight;
+
+                        firework.css({
+                            left: randomLeft + "px",
+                            top: randomTop + "px"
+                        });
+
+                        firework.animate({
+                            width: "20px",
+                            height: "20px",
+                            opacity: 1
+                        }, 1000, function() {
+                            //firework.remove();
+                        });
+                    }, i * 200);
+                }
+            }
+
+            // ===========================
+            // 💫 START CONFETTI FUNCTION
+            // ===========================
+            function startConfetti() {
+                console.log("Confetti!");
+                for (let i = 0; i < 100; i++) {
+                    let confetti = $('<div class="confetti"></div>');
+                    $("body").append(confetti);
+
+                    let randomLeft = Math.random() * window.innerWidth;
+                    let randomTop = Math.random() * -500;
+
+                    confetti.css({
+                        left: randomLeft + "px",
+                        top: randomTop + "px",
+                        backgroundColor: getRandomColor()
+                    });
+
+                    confetti.animate({
+                        top: window.innerHeight + "px",
+                        opacity: 1,
+
+                    }, 3000, function() {
+                        //confetti.remove();
+                    });
+                }
+            }
+
+            // ✅ Random Confetti Colors
+            function getRandomColor() {
+                console.log("Random Color!");
+                let colors = ["#FF4136", "#0074D9", "#2ECC40", "#FFDC00", "#B10DC9", "#FF851B"];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
     });
 
-    $(".flame").click(function() {
-    $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
-    $(".text").animate({"top": -90, "opacity": 1}, "fast");
-    navigator.vibrate(1000);
-    $("#clapSound")[0].play();
-    });
-
-
-     
-});
     </script>
 </body>
 </html>
