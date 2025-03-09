@@ -42,6 +42,10 @@ p {
         
         Happy Birthday once again, BUBU. 🥳🎂🎉 <br><br><br><br> Tap on the Screen 👀</p></center>
     <canvas id="birthday"></canvas>
+    <audio id="crackerSound" preload="auto">
+        <source src="demo/mixkit-multiple-fireworks-explosions-1689.wav" type="audio/wav">
+          Your browser does not support the audio element.
+      </audio>
 </body>
 <script>
     // helper functions
@@ -71,6 +75,10 @@ class Birthday {
   }
 
   onClick(evt) {
+    // spawn firework after 2200ms
+    setTimeout(() => {
+        document.getElementById('crackerSound').play();
+    }, 2200);
     let x = evt.clientX || (evt.touches && evt.touches[0].pageX);
     let y = evt.clientY || (evt.touches && evt.touches[0].pageY);
 
