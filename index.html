@@ -312,19 +312,7 @@
         $('#text_bolte_1').click(function() {
             $('#text_bolte_1').hide();
             $('#text_bolte_2').show();
-        });
-
-        // Blow off the candle by speaking "Hey it's my birthday"
-        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let analyser = audioContext.createAnalyser();
-        let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-
-
-        // Start listening when the page loads
-        recognition.continuous = true;
-        recognition.lang = 'en-US';
-
-        recognition.onresult = function(event) {
+            recognition.onresult = function(event) {
             let transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
             console.log("You said: ", transcript);
 
@@ -399,6 +387,19 @@
             
         }
 
+        });
+
+        // Blow off the candle by speaking "Hey it's my birthday"
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let analyser = audioContext.createAnalyser();
+        let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+
+        // Start listening when the page loads
+        recognition.continuous = true;
+        recognition.lang = 'en-US';
+
+       
         // If user clicks manually, blow the candle
         // $(".flame, .flame2, .flame3").click(function() {
         //     $(".flame, .flame2, .flame3").animate({"opacity": 0}, "fast");
