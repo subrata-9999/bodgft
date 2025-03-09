@@ -12,6 +12,7 @@
     margin: 0;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    
 }
 
 .card {
@@ -21,13 +22,25 @@
 	 border: 10px solid #9612eb;
 	 margin: 60px auto 0 auto;
 	 box-shadow: inset 10px 0px 15px 0px rgba(0, 0, 0, 0.1);
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255), rgba(255, 255, 255, 0.5)), url("https://images.unsplash.com/photo-1527481138388-31827a7c94d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60");
 
 background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover;
 	 background-color: #e6f0e6;
 }
+    .card_1
+    {
+        background-image: linear-gradient(to bottom, rgb(199, 184, 184), rgba(255, 255, 255, 0.3)), url('demo/demo2.jpg');
+    }
+    .card_2
+    {
+        background-image: linear-gradient(to bottom, rgb(199, 184, 184), rgba(255, 255, 255, 0.3)), url('demo/demo1.jpg');
+    }
+    .card_3
+    {
+        background-image: linear-gradient(to bottom, rgb(199, 184, 184), rgba(255, 255, 255, 0.3)), url('demo/demo3.jpg');
+    }
+
  .card .text-container {
 	 width: 80%;
 	 height: 80%;
@@ -105,11 +118,11 @@ background-position: center; /* Center the image */
     </style>
 </head>
 <body>
-    <div class="card">
+    <div class="card card_1">
       <div class="back"></div>
       <div class="front">
         <div class="imgset">
-             <img width="100%" src="demo/demo2.jpg">
+             <img width="100%" src="https://1.bp.blogspot.com/-Mgj9-rbs65E/XfMoPSD5gtI/AAAAAAAAURk/NBokE2gSS2cTSJ2em5lZ5hJDuTtRN7UVwCLcBGAsYHQ/s1600/2713997.png">
            </div>
       </div>
       <div class="text-container">
@@ -118,11 +131,11 @@ background-position: center; /* Center the image */
         <p>Hope your day goes great!</p>
       </div>
     </div>
-      <div class="card">
+      <div class="card card_2">
       <div class="back"></div>
       <div class="front">
         <div class="imgset">
-             <img width="100%" src="demo/demo1.jpg">
+             <img width="100%" src="https://1.bp.blogspot.com/-Mgj9-rbs65E/XfMoPSD5gtI/AAAAAAAAURk/NBokE2gSS2cTSJ2em5lZ5hJDuTtRN7UVwCLcBGAsYHQ/s1600/2713997.png">
            </div>
       </div>
       <div class="text-container">
@@ -131,11 +144,11 @@ background-position: center; /* Center the image */
         <p>Hope your day goes great!</p>
       </div>
     </div>
-      <div class="card">
+      <div class="card card_3">
       <div class="back"></div>
       <div class="front">
         <div class="imgset">
-             <img width="100%" src="demo/demo3.jpg">
+             <img width="100%" src="https://1.bp.blogspot.com/-Mgj9-rbs65E/XfMoPSD5gtI/AAAAAAAAURk/NBokE2gSS2cTSJ2em5lZ5hJDuTtRN7UVwCLcBGAsYHQ/s1600/2713997.png">
            </div>
       </div>
       <div class="text-container">
@@ -145,4 +158,17 @@ background-position: center; /* Center the image */
       </div>
     </div>
     </body>
+    <audio id="clapSound" preload="auto">
+        <source src="demo/birthDay_song.mp3" type="audio/mpeg">
+        <source src="https://www.soundjay.com/applause/applause-01.ogg" type="audio/ogg">
+        Your browser does not support the audio element.
+    </audio>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var audio = document.getElementById("clapSound");
+            //audio.play();
+        });
+    </script>
 </html>
